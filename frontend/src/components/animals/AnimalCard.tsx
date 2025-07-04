@@ -51,8 +51,14 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal, viewMode = 'grid' }) =>
     }
   };
 
-  const getAgeText = (age?: string) => {
+  const getAgeText = (age?: string | number) => {
     if (!age) return 'Unknown';
+    if (typeof age === 'number') {
+      if (age <= 1) return 'Young';
+      if (age <= 3) return 'Adult';
+      if (age <= 7) return 'Adult';
+      return 'Senior';
+    }
     switch (age) {
       case 'PUPPY':
         return 'Puppy';

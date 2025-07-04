@@ -155,8 +155,14 @@ const AnimalDetailPageContent: React.FC = () => {
     }
   };
 
-  const getAgeText = (age?: string) => {
+  const getAgeText = (age?: string | number) => {
     if (!age) return 'Unknown';
+    if (typeof age === 'number') {
+      if (age <= 1) return 'Young';
+      if (age <= 3) return 'Adult';
+      if (age <= 7) return 'Adult';
+      return 'Senior';
+    }
     switch (age) {
       case 'PUPPY':
         return 'Puppy';
@@ -182,9 +188,9 @@ const AnimalDetailPageContent: React.FC = () => {
   const reportedAt = animal.reportedAt || animal.createdAt || '';
   
   // Handle reportedBy which could be string or object
-  const reportedByName = typeof animalReportedBy === 'string' ? animalReportedBy : animalReportedBy.name || 'Unknown';
-  const reportedByEmail = typeof animalReportedBy === 'string' ? '' : animalReportedBy.email || '';
-  const reportedById = typeof animalReportedBy === 'string' ? '' : animalReportedBy.id || '';
+  const reportedByName = typeof animalReportedBy === 'string' ? animalReportedBy : (animalReportedBy as any)?.name || 'Unknown';
+  const reportedByEmail = typeof animalReportedBy === 'string' ? '' : (animalReportedBy as any)?.email || '';
+  const reportedById = typeof animalReportedBy === 'string' ? '' : (animalReportedBy as any)?.id || '';
   
   // Check if current user is the reporter
   const isCurrentUserReporter = user && (
@@ -194,13 +200,13 @@ const AnimalDetailPageContent: React.FC = () => {
   );
   
   // Get location from either location object or locations array
-  let locationCity = animalLocation.city || 'Unknown';
-  let locationState = animalLocation.state || '';
-  let locationAddress = animalLocation.address || '';
-  let locationLat = animalLocation.latitude || 0;
-  let locationLng = animalLocation.longitude || 0;
+  let locationCity = (animalLocation as any)?.city || 'Unknown';
+  let locationState = (animalLocation as any)?.state || '';
+  let locationAddress = (animalLocation as any)?.address || '';
+  let locationLat = (animalLocation as any)?.latitude || 0;
+  let locationLng = (animalLocation as any)?.longitude || 0;
   
-  if (!animalLocation.city && animal.locations && animal.locations.length > 0) {
+  if (!(animalLocation as any)?.city && animal.locations && animal.locations.length > 0) {
     const currentLocation = animal.locations.find(loc => loc.isCurrent) || animal.locations[0];
     locationCity = currentLocation.city || 'Unknown';
     locationState = currentLocation.area || '';

@@ -147,9 +147,9 @@ const EditAnimalPageContent: React.FC = () => {
 
   // Check if current user is the reporter
   const animalReportedBy = animal.reportedBy || {};
-  const reportedById = typeof animalReportedBy === 'string' ? '' : animalReportedBy.id || '';
-  const reportedByEmail = typeof animalReportedBy === 'string' ? '' : animalReportedBy.email || '';
-  const reportedByName = typeof animalReportedBy === 'string' ? animalReportedBy : animalReportedBy.name || '';
+  const reportedById = typeof animalReportedBy === 'string' ? '' : (animalReportedBy as any)?.id || '';
+  const reportedByEmail = typeof animalReportedBy === 'string' ? '' : (animalReportedBy as any)?.email || '';
+  const reportedByName = typeof animalReportedBy === 'string' ? animalReportedBy : (animalReportedBy as any)?.name || '';
 
   const isCurrentUserReporter = user && (
     reportedById === user.id || 
@@ -211,11 +211,11 @@ const EditAnimalPageContent: React.FC = () => {
       
       // Set location data with fallbacks
       const location = animal.location || {};
-      const latitude = location.latitude || 0;
-      const longitude = location.longitude || 0;
-      const address = location.address || '';
-      const city = location.city || '';
-      const state = location.state || '';
+      const latitude = (location as any)?.latitude || 0;
+      const longitude = (location as any)?.longitude || 0;
+      const address = (location as any)?.address || '';
+      const city = (location as any)?.city || '';
+      const state = (location as any)?.state || '';
       
       setValue('location.latitude', latitude);
       setValue('location.longitude', longitude);
