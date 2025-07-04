@@ -1,0 +1,89 @@
+import apiService from './api';
+import type { LoginDto, RegisterDto, AuthResponse, User } from '../types/auth';
+
+interface BackendAuthResponse {
+  code: number;
+  message: string;
+  data: {
+    token: string;
+    refreshToken: string;
+    tokenType: string;
+    user: User;
+  };
+  timestamp: number;
+}
+
+class AuthService {
+  async login(credentials: LoginDto): Promise<AuthResponse> {
+    const response = await apiService.post<BackendAuthResponse>('/auth/login', credentials);
+    return {
+      user: response.data.user,
+      token: response.data.token
+    };
+  }
+
+  async register(userData: RegisterDto): Promise<AuthResponse> {
+    const response = await apiService.post<BackendAuthResponse>('/auth/register', userData);
+    return {
+      user: response.data.user,
+      token: response.data.token
+    };
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await apiService.post('/auth/logout');
+    } catch (error: any) {
+      // Log the error but don't throw it since we want to clear local storage anyway
+      console.warn('Logout request failed:', error.response?.data || error.message);
+    } finally {
+      // Always clear local storage regardless of server response
+      localStorage.removeItem('auth_token');
+      localStorage.removeItem('user');
+    }
+  }
+
+  async getCurrentUser(): Promise<User> {
+    const response = await apiService.get<{ data: User }>('/auth/me');
+    return response.data;
+  }
+
+  async refreshToken(): Promise<AuthResponse> {
+    const response = await apiService.post<BackendAuthResponse>('/auth/refresh');
+    return {
+      user: response.data.user,
+      token: response.data.token
+    };
+  }
+
+  // Helper methods for token management
+  setToken(token: string): void {
+    localStorage.setItem('auth_token', token);
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('auth_token');
+  }
+
+  setUser(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+  }
+
+  getUser(): User | null {
+    const userStr = localStorage.getItem('user');
+    return userStr ? JSON.parse(userStr) : null;
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
+
+  // Promote user (admin only)
+  async promoteUser({ email, username, role }: { email?: string; username?: string; role: string }): Promise<string> {
+    const response = await apiService.put('/auth/promote', { email, username, role });
+    return response.data;
+  }
+}
+
+export const authService = new AuthService();
+export default authService; 
