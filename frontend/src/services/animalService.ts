@@ -39,8 +39,9 @@ class AnimalService {
       content: data.content || [],
       totalElements: data.totalElements || 0,
       page: data.number + 1, // Convert 0-based to 1-based
-      limit: data.size || limit,
       totalPages: data.totalPages || 1,
+      size: data.size || limit,
+      number: data.number || 0,
     };
   }
 
@@ -147,8 +148,9 @@ class AnimalService {
       content: data.content || [],
       totalElements: data.totalElements || 0,
       page: data.number + 1, // Convert 0-based to 1-based
-      limit: data.size || limit,
       totalPages: data.totalPages || 1,
+      size: data.size || limit,
+      number: data.number || 0,
     };
   }
 
@@ -171,8 +173,9 @@ class AnimalService {
       content: data.content || [],
       totalElements: data.totalElements || 0,
       page: data.number + 1,
-      limit: data.size || limit,
       totalPages: data.totalPages || 1,
+      size: data.size || limit,
+      number: data.number || 0,
     };
   }
 

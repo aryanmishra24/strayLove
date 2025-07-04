@@ -15,9 +15,9 @@ export interface CommunityLog {
 }
 
 export interface CreateCommunityLogRequest {
-  logType: LogType;
-  description: string;
-  urgencyLevel: UrgencyLevel;
+  logType?: LogType;
+  description?: string;
+  urgencyLevel?: UrgencyLevel;
 }
 
 export const LogType = {

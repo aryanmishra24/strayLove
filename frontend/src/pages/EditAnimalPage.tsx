@@ -275,7 +275,7 @@ const EditAnimalPageContent: React.FC = () => {
         breed: data.breed,
         color: data.breed, // Using breed as color for now
         gender: data.gender,
-        temperament: 'FRIENDLY', // Default value
+        temperament: 'FRIENDLY' as const, // Use proper enum value
         healthStatus: data.healthStatus,
         latitude: data.location.latitude,
         longitude: data.location.longitude,

@@ -75,13 +75,17 @@ const AnimalCard: React.FC<AnimalCardProps> = ({ animal, viewMode = 'grid' }) =>
   const animalReportedBy = animal.reportedBy || {};
   const animalTags = animal.tags || [];
   const lastSeenAt = animal.lastSeenAt || animal.createdAt || animal.reportedAt || '';
-  const reportedByName = typeof animalReportedBy === 'string' ? animalReportedBy : animalReportedBy.name || 'Unknown';
+  
+  // Handle reportedBy which can be string or object
+  const reportedByName = typeof animalReportedBy === 'string' 
+    ? animalReportedBy 
+    : (animalReportedBy as any)?.name || 'Unknown';
   
   // Get location from either location object or locations array
-  let locationCity = animalLocation.city || 'Unknown';
-  let locationState = animalLocation.state || '';
+  let locationCity = (animalLocation as any)?.city || 'Unknown';
+  let locationState = (animalLocation as any)?.state || '';
   
-  if (!animalLocation.city && animal.locations && animal.locations.length > 0) {
+  if (!(animalLocation as any)?.city && animal.locations && animal.locations.length > 0) {
     const currentLocation = animal.locations.find(loc => loc.isCurrent) || animal.locations[0];
     locationCity = currentLocation.city || 'Unknown';
     locationState = currentLocation.area || '';

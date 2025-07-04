@@ -7,23 +7,23 @@ export interface Animal {
   color: string;
   gender: 'MALE' | 'FEMALE' | 'UNKNOWN';
   age?: number;
-  temperament: 'FRIENDLY' | 'SHY' | 'AGGRESSIVE' | 'NEUTRAL' | 'PLAYFUL' | 'CALM' | 'CRITICAL';
-  healthStatus: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING' | 'CRITICAL';
+  temperament: 'FRIENDLY' | 'SHY' | 'AGGRESSIVE' | 'NEUTRAL' | 'PLAYFUL' | 'CALM';
+  healthStatus: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING';
   isVaccinated?: boolean;
   isSterilized?: boolean;
-  isNeutered?: boolean; // Add missing property
+  isNeutered?: boolean;
   description?: string;
   approvalStatus: 'PENDING' | 'APPROVED' | 'REJECTED';
-  reportedBy: string | { id: string; name: string; email: string }; // Allow both string and object
-  reportedAt?: string; // Add missing property
+  reportedBy: string | { id: string; name: string; email: string };
+  reportedAt?: string;
   createdAt: string;
   updatedAt: string;
   lastSeenAt?: string;
   imageUrls?: string[];
-  images?: string[]; // For backward compatibility
+  images?: string[];
   locations?: AnimalLocation[];
-  location?: Location; // For backward compatibility
-  tags?: string[]; // Add missing property
+  location?: Location;
+  tags?: string[];
 }
 
 export interface AnimalLocation {
@@ -33,6 +33,7 @@ export interface AnimalLocation {
   address: string;
   area: string;
   city: string;
+  state?: string;
   isCurrent: boolean;
   createdAt: string;
 }
@@ -62,7 +63,8 @@ export interface AnimalListResponse {
   totalPages: number;
   size: number;
   number: number;
-  page?: number; // Add missing property
+  page?: number;
+  limit?: number;
 }
 
 export interface AnimalStats {
@@ -84,9 +86,9 @@ export interface AnimalFilters {
   status?: string;
   page?: number;
   size?: number;
-  age?: string[]; // Add missing property
-  isNeutered?: boolean; // Add missing property
-  isVaccinated?: boolean; // Add missing property
+  age?: string[];
+  isNeutered?: boolean;
+  isVaccinated?: boolean;
   location?: {
     latitude: number;
     longitude: number;
@@ -100,7 +102,7 @@ export interface CreateAnimalRequest {
   color: string;
   gender: 'MALE' | 'FEMALE' | 'UNKNOWN';
   age?: number;
-  healthStatus: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING' | 'CRITICAL';
+  healthStatus: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING';
   temperament: 'FRIENDLY' | 'SHY' | 'AGGRESSIVE' | 'NEUTRAL' | 'PLAYFUL' | 'CALM';
   isVaccinated?: boolean;
   isSterilized?: boolean;
@@ -122,7 +124,7 @@ export interface UpdateAnimalRequest {
   color?: string;
   gender?: 'MALE' | 'FEMALE' | 'UNKNOWN';
   age?: number;
-  healthStatus?: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING' | 'CRITICAL';
+  healthStatus?: 'HEALTHY' | 'SICK' | 'INJURED' | 'RECOVERING';
   temperament?: 'FRIENDLY' | 'SHY' | 'AGGRESSIVE' | 'NEUTRAL' | 'PLAYFUL' | 'CALM';
   isVaccinated?: boolean;
   isSterilized?: boolean;

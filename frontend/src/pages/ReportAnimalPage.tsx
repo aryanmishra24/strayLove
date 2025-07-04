@@ -234,15 +234,15 @@ const ReportAnimalPage: React.FC = () => {
       console.log('FormData entries:');
       for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
-        if (value instanceof File || value instanceof Blob) {
-          console.log(`  - Type: ${value.type}`);
-          console.log(`  - Size: ${value.size} bytes`);
+        if (value && typeof value === 'object' && 'type' in value && 'size' in value) {
+          console.log(`  - Type: ${(value as any).type}`);
+          console.log(`  - Size: ${(value as any).size} bytes`);
         }
       }
       
       // Check if FormData is actually FormData
       console.log('FormData type:', formData.constructor.name);
-      console.log('FormData instanceof FormData:', formData instanceof FormData);
+      console.log('FormData is FormData:', formData && typeof formData === 'object' && 'entries' in formData);
 
       // Use the reportAnimalMutation with FormData
       await reportAnimalMutation.mutateAsync(formData);
