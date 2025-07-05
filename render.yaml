@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: straylove-backend
+    env: docker
+    region: oregon
+    plan: starter
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DB_URL
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+      - key: CORS_ALLOWED_ORIGINS
+        value: "*"
+      - key: STORAGE_STRATEGY
+        value: cloudinary
+    buildCommand: echo "Build handled by Dockerfile"
+    startCommand: echo "Start handled by Dockerfile"
+    autoDeploy: true 
